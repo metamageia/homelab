@@ -31,11 +31,10 @@ jobs:
         with:
           nix_path: nixpkgs=channel:nixos-unstable
 
-      - name: Start SSH agent and add key
-        run: |
-          eval "$(ssh-agent -s)"
-          ssh-add <(echo "${{ secrets.SSH_KEY }}")
-          echo -e "Host *\n  StrictHostKeyChecking no\n" > ~/.ssh/config
+      - name: Start ssh-agent
+        uses: webfactory/ssh-agent
+        with:
+          ssh-private-key: ${{ secrets.TF_VAR_pvt_key }}
 
       - name: Install Colmena
         run: nix profile install github:zhaofengli/colmena
