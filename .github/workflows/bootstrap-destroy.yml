@@ -30,8 +30,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
  
       - name: Terraform Init
-        run: \
-          terraform init \
+        run: terraform init \
             -backend-config="access_key=${{ secrets.SPACES_ACCESS_KEY_ID }}" \
             -backend-config="secret_key=${{ secrets.SPACES_SECRET_ACCESS_KEY }}" \
             -backend-config="endpoint=https://${{ env.SPACES_REGION }}.digitaloceanspaces.com" \
