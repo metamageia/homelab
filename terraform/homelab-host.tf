@@ -1,7 +1,7 @@
 resource "digitalocean_droplet" "homelab-control" {
   image  = "191473488"
   name   = "homelab-control"
-  region = "nyc3"
+  region = "atl1"
   size   = "s-1vcpu-1gb"
   ssh_keys = [
     data.digitalocean_ssh_key.terraform.id

@@ -18,11 +18,13 @@
           buildInputs = [ pkgs.terraform ];
           shellHook = ''
             echo "Welcome to the Homeserver development environment!"
+            set -a
+            source ./secrets/.env
+            set +a
           '';
         };
       }
-    ) 
-    {
+    ) // {
       nixosConfigurations.homelab-control = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
