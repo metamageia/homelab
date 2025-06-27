@@ -13,6 +13,8 @@ jobs:
       TF_VAR_do_token: ${{ secrets.TF_VAR_do_token }}
       SSH_KEY: ${{ secrets.SSH_KEY }}
       TF_VAR_pvt_key: ${{ secrets.TF_VAR_pvt_key }}
+      SPACES_ACCESS_KEY_ID: ${{ secrets.SPACES_ACCESS_KEY_ID }}
+      SPACES_SECRET_ACCESS_KEY: ${{ secrets.SPACES_SECRET_ACCESS_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.SPACES_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.SPACES_SECRET_ACCESS_KEY }}
 
