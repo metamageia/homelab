@@ -32,7 +32,7 @@ jobs:
           nix_path: nixpkgs=channel:nixos-unstable
 
       - name: Start ssh-agent
-        uses: webfactory/ssh-agent
+        uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.TF_VAR_pvt_key }}
 
