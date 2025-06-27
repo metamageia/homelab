@@ -33,6 +33,9 @@ jobs:
         run: terraform init \
              -backend-config="access_key=${{ secrets.SPACES_ACCESS_KEY_ID }}" \
              -backend-config="secret_key=${{ secrets.SPACES_SECRET_ACCESS_KEY }}" \
+             -backend-config="endpoint=https://${SPACES_REGION}.digitaloceanspaces.com" \
+             -backend-config="bucket=${SPACES_BUCKET}" \
+             -backend-config="key=bootstrap/terraform.tfstate" \
              -force-copy
 
       - name: Check Terraform fmt
