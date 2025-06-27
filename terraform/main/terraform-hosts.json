@@ -1,0 +1,23 @@
+{
+  "homelab_machines": {
+    "sensitive": false,
+    "type": [
+      "object",
+      {
+        "homelab-control": [
+          "object",
+          {
+            "ip": "string",
+            "role": "string"
+          }
+        ]
+      }
+    ],
+    "value": {
+      "homelab-control": {
+        "ip": "104.131.162.26",
+        "role": "control"
+      }
+    }
+  }
+}

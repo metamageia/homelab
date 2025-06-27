@@ -4,9 +4,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    colmena.url = "github:zhaofengli/colmena";
   };
 
-  outputs = { self, nixpkgs, flake-utils, ... }:
+  outputs = { self, nixpkgs, flake-utils, colmena, ... }:
     let
       supportedSystems = [ "x86_64-linux" ];
     in
@@ -15,7 +16,7 @@
         pkgs = import nixpkgs { inherit system; config.allowUnfree = true; };
       in {
         devShells.default = pkgs.mkShell {
-          buildInputs = [ pkgs.terraform ];
+          buildInputs = [ pkgs.terraform pkgs.colmena ];
           shellHook = ''
             echo "Welcome to the Homeserver development environment!"
             set -a

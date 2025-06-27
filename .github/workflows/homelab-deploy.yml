@@ -46,3 +46,9 @@ jobs:
         run: terraform apply -auto-approve
         env:
           TF_INPUT: false
+
+      - name: Generate and Upload Terraform Output
+        run: |
+          terraform output -json > terraform-hosts.json
+          aws --endpoint-url https://nyc3.digitaloceanspaces.com s3 cp terraform-hosts.json s3://homelab-state/terraform-hosts.json
+        
