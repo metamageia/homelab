@@ -1,0 +1,50 @@
+name: Deploy to NixOS Fleet
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "nix/**"
+      - ".github/workflows/colmena-deploy.yml"
+
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      TF_VAR_do_token: ${{ secrets.TF_VAR_do_token }}
+      SSH_KEY: ${{ secrets.SSH_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.SPACES_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.SPACES_SECRET_ACCESS_KEY }}
+
+    defaults:
+      run:
+        working-directory: ./nix
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v27
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+
+      - name: Start SSH agent and add key
+        run: |
+          eval "$(ssh-agent -s)"
+          ssh-add <(echo "${{ secrets.SSH_KEY }}")
+          echo -e "Host *\n  StrictHostKeyChecking no\n" > ~/.ssh/config
+
+      - name: Install Colmena
+        run: nix profile install github:zhaofengli/colmena
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Fetch Terraform outputs
+        run: |
+          terraform init 
+          terraform output -json > terraform-hosts.json
+

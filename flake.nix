@@ -26,18 +26,11 @@
         };
       }
     ) // {
-      nixosConfigurations.homelab-control = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./nix/homelab-control.nix
-        ];
-      };
-
       nixosConfigurations.digitalocean = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           "${nixpkgs}/nixos/modules/virtualisation/digital-ocean-image.nix"
-          ./nix/digitalocean.nix
+          ./nix/hosts/digitalocean.nix
         ];
       };
 
