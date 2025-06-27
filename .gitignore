@@ -1,0 +1,10 @@
+.env
+*/.terraform/
+*.tfstate
+*.tfstate.backup
+crash.log
+*.tfplan
+*.tfvars
+.ssh/*
+secrets/
+/result
