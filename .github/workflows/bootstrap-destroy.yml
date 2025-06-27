@@ -1,16 +1,13 @@
-name: Homelab Deploy
+name: Destroy Bootstrap
 
 on:
-  push:
-    branches: [ main ]
-
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  Homelab-Deploy:
+  Destroy-Bootstrap:
     runs-on: ubuntu-latest
     env:
       TF_VAR_do_token: ${{ secrets.TF_VAR_do_token }}
@@ -21,7 +18,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./terraform/main
+        working-directory: ./terraform/bootstrap
 
     steps:
       - name: Checkout code
@@ -39,10 +36,7 @@ jobs:
       - name: Validate Configuration
         run: terraform validate
 
-      - name: Terraform Plan
-        run: terraform plan
-
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
+      - name: Terraform destroy
+        run: terraform destroy -auto-approve
         env:
           TF_INPUT: false
