@@ -20,6 +20,7 @@ resource "digitalocean_droplet" "homelab-control" {
     inline = [
       "export PATH=$PATH:/usr/bin",
       "sudo hostname homelab-control",
+      "nohup nixos-rebuild switch --flake github:metamageia/homelab#homelab-control &>/tmp/rebuild.log &",
     ]
   }
 }
