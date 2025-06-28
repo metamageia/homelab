@@ -32,32 +32,27 @@
 
       nixosConfigurations.digitalocean = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        inherit pkgs;
+        specialArgs = {
+          hostName = "desktop";
+          inherit comin;
+        };
         modules = [
-          ./core-configuration.nix
+          "${nixpkgs}/nixos/modules/virtualisation/digital-ocean-image.nix"
+          ./nix/core-configuration.nix
         ];
       };
 
       nixosConfigurations.homelab-control = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        inherit pkgs;
         specialArgs = {
-          hostName = "homelab-control";
+         inherit inputs;
+         inherit system;
+         inherit comin;
         };
         modules = [
+          "${nixpkgs}/nixos/modules/virtualisation/digital-ocean-image.nix"
           ./nix/core-configuration.nix
           ./nix/hosts/homelab-control.nix
-           comin.nixosModules.comin
-          ({...}: {
-            services.comin = {
-              enable = true;
-              remotes = [{
-                name = "origin";
-                url = "https://github.com/metamageia/homelab.git";
-                branches.main.name = "main";
-              }];
-            };
-          })
         ];
       };
       packages.x86_64-linux.digitalOceanImage =
