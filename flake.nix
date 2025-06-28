@@ -3,8 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
-    
+ 
     comin.url = "github:nlewo/comin";
     comin.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -33,7 +32,7 @@
       nixosConfigurations.digitalocean = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
-          hostName = "desktop";
+          hostName = "digitalocean";
           inherit comin;
         };
         modules = [
@@ -45,16 +44,15 @@
       nixosConfigurations.homelab-control = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
-         inherit inputs;
-         inherit system;
-         inherit comin;
+          hostName = "homelab-control";
+          inherit comin;
         };
         modules = [
           "${nixpkgs}/nixos/modules/virtualisation/digital-ocean-image.nix"
           ./nix/core-configuration.nix
-          ./nix/hosts/homelab-control.nix
         ];
       };
+
       packages.x86_64-linux.digitalOceanImage =
         self.nixosConfigurations.digitalocean.config.system.build.digitalOceanImage;
 

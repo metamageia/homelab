@@ -12,7 +12,8 @@
   ];
 
   imports = [
-    ./cachix.nix
+    ./apps/cachix.nix
+    ./apps/comin.nix
   ];
 
 }
