@@ -19,7 +19,7 @@ resource "digitalocean_droplet" "homelab-control" {
   provisioner "remote-exec" {
     inline = [
       "export PATH=$PATH:/usr/bin",
-      "nix shell nixpkgs#git",
+      "nix-env nixpkgs#git",
       "git clone https://github.com/metamageia/homelab.git ./.dotfiles",
       "cd ./.dotfiles",
       "nixos-rebuild switch --flake .#homelab-control",
