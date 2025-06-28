@@ -1,1 +1,0 @@
-../terraform/main/provider.tf
