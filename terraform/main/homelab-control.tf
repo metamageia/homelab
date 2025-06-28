@@ -19,9 +19,13 @@ resource "digitalocean_droplet" "homelab-control" {
   provisioner "remote-exec" {
     inline = [
       "export PATH=$PATH:/usr/bin",
+      "nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs",
+      "nix-channel --update",
       "nix-env -iA nixpkgs.git",
       "git clone https://github.com/metamageia/homelab.git ./.dotfiles",
       "cd ./.dotfiles",
+      "echo 'experimental-features = nix-command flakes' | sudo tee -a /etc/nix/nix.conf",
+      "sudo systemctl restart nix-daemon.service || true",
       "nixos-rebuild switch --flake .#homelab-control",
     ]
   }
