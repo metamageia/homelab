@@ -50,6 +50,7 @@
         modules = [
           "${nixpkgs}/nixos/modules/virtualisation/digital-ocean-image.nix"
           ./nix/core-configuration.nix
+          ./nix/homelab-control.nix
         ];
       };
 
