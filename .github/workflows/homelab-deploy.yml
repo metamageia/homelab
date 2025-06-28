@@ -3,6 +3,8 @@ name: Homelab Deploy
 on:
   push:
     branches: [ main ]
+    paths:
+      - terraform/main/*
 
   workflow_dispatch:
 
