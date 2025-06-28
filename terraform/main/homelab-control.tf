@@ -19,8 +19,9 @@ resource "digitalocean_droplet" "homelab-control" {
   provisioner "remote-exec" {
     inline = [
       "export PATH=$PATH:/usr/bin",
-      "sudo hostname homelab-control",
-      "nohup nixos-rebuild switch --flake github:metamageia/homelab#homelab-control &>/tmp/rebuild.log &",
+      "git clone https://github.com/metamageia/homelab.git /.dotfiles",
+      "cd /.dotfiles",
+      "nohup nixos-rebuild switch --flake .#homelab-control &>/tmp/rebuild.log &",
     ]
   }
 }

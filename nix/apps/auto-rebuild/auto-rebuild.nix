@@ -12,7 +12,7 @@
 
     systemd.services."auto-rebuild" = {
     script = ''
-        auto-rebuild.sh
+        auto-update.sh
     '';
     serviceConfig = {
         Type = "oneshot";
