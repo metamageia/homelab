@@ -9,51 +9,43 @@
     comin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, flake-utils, comin, ... }:
+  outputs = { self, nixpkgs, flake-utils, comin, ... }@inputs:
     let
-      supportedSystems = [ "x86_64-linux" ];
-    in
-    flake-utils.lib.eachSystem supportedSystems (system:
-      let
-        pkgs = import nixpkgs { inherit system; config.allowUnfree = true; };
-      in {
-        devShells.default = pkgs.mkShell {
-          buildInputs = [ pkgs.terraform ];
-          shellHook = ''
-            echo "Welcome to the Homeserver development environment!"
-            set -a
-            source ./secrets/.env
-            set +a
-          '';
-        };
-      }
-    ) // {
+      system = "x86_64-linux";
+    
+      pkgs = import inputs.nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
+
+    in {
+      devShells.${system}.default = pkgs.mkShell {
+      inherit system;
+      buildInputs = [ pkgs.terraform ];
+      shellHook = ''
+        echo "Welcome to the Homeserver development environment!"
+        set -a
+        source ./secrets/.env
+        set +a
+      '';
+      };
+
       nixosConfigurations.digitalocean = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        inherit pkgs;
         modules = [
-          "${nixpkgs}/nixos/modules/virtualisation/digital-ocean-image.nix"
-          ./nix/hosts/digitalocean.nix
-           comin.nixosModules.comin
-          ({...}: {
-            services.comin = {
-              enable = true;
-              remotes = [{
-                name = "origin";
-                url = "https://github.com/metamageia/homelab.git";
-                branches.main.name = "main";
-              }];
-            };
-          })
+          ./core-configuration.nix
         ];
       };
+
       nixosConfigurations.homelab-control = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-                  specialArgs = {
-            hostName = "homelab-control";
-          };
+        inherit pkgs;
+        specialArgs = {
+          hostName = "homelab-control";
+        };
         modules = [
           ./nix/core-configuration.nix
-          "${nixpkgs}/nixos/modules/virtualisation/digital-ocean-image.nix"
           ./nix/hosts/homelab-control.nix
            comin.nixosModules.comin
           ({...}: {
@@ -70,5 +62,6 @@
       };
       packages.x86_64-linux.digitalOceanImage =
         self.nixosConfigurations.digitalocean.config.system.build.digitalOceanImage;
+
     };
 }
