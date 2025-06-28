@@ -1,4 +1,4 @@
-{ pkgs, hostName, ... }:
+{ pkgs, config, hostName, ... }:
 
 {
  
@@ -36,7 +36,7 @@
     serviceConfig = {
         Type = "oneshot";
     };
-    path = [ pkgs.nixos-rebuild ];
+    path = [ pkgs.nixos-rebuild pkgs.git];
     };
 
 
