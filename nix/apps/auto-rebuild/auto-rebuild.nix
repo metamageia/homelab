@@ -11,13 +11,14 @@
     };
 
     systemd.services."auto-rebuild" = {
-        script = ''
-            #!${pkgs.bash}/bin/bash
-            nixos-rebuild switch --flake github:metamageia/homelab#$hostName
-        '';
-        serviceConfig = {
-            Type = "oneshot";
-        };
+    script = ''
+        auto-rebuild.sh
+    '';
+    serviceConfig = {
+        Type = "oneshot";
     };
+    path = [ pkgs.nixos-rebuild ];
+    };
+
 
 }
