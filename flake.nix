@@ -53,6 +53,7 @@
           };
         modules = [
           ./nix/core-configuration.nix
+          "${nixpkgs}/nixos/modules/virtualisation/digital-ocean-image.nix"
           ./nix/hosts/homelab-control.nix
            comin.nixosModules.comin
           ({...}: {
