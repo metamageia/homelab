@@ -12,7 +12,26 @@
 
     systemd.services."auto-rebuild" = {
     script = ''
-        ./auto-update.sh
+        #!/usr/bin/env bash
+
+        REPO_DIR="/.dotfiles"
+        UPDATE_COMMAND="sudo nixos-rebuild switch --flake .#"
+
+        cd "$REPO_DIR"
+
+        BEFORE=$(git rev-parse HEAD)
+
+        git fetch origin
+        git reset --hard origin/main
+
+        AFTER=$(git rev-parse HEAD)
+
+        if [[ "$BEFORE" != "$AFTER" ]]; then
+            echo "Changes were pulled. Running update command..."
+            $UPDATE_COMMAND
+            else
+            echo "No changes detected. Nothing to do."
+            fi
     '';
     serviceConfig = {
         Type = "oneshot";

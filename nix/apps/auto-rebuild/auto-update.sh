@@ -2,7 +2,6 @@
 
 set -euo pipefail
 
-
 REPO_DIR="/.dotfiles"
 
 UPDATE_COMMAND="sudo nixos-rebuild switch --flake .#"
