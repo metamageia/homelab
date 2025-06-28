@@ -1,28 +1,26 @@
 {
   description = "Metamageia's personal NixOS flake.";
-  
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; 
+    colmena.url = "github:zhaofengli/colmena";
+  };
 
-    };
-    
-  outputs = { self, nixpkgs, stylix, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, colmena, ... }@inputs:
     let 
       system = "x86_64-linux";
-      lib = inputs.nixpkgs.lib;
+      lib = nixpkgs.lib;
 
-      pkgs = import inputs.nixpkgs {
-      inherit system;
-      config.allowUnfree = true;
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
       };
 
+      generatedHosts = import ./terraform-hosts.nix;
     in {
-          
-      # --- Host-specific Configurations --- #
       nixosConfigurations = {
         homelab-control = lib.nixosSystem {
-          inherit system;
-          inherit pkgs;
+          inherit system pkgs;
           specialArgs = {
             hostName = "homelab-control";
           };
@@ -31,6 +29,12 @@
             ./hosts/homelab-control.nix
           ];
         }; 
+      };
+
+      colmena = {
+        type = "colmena";
+        meta.nixpkgs = nixpkgs;
+        nodes = generatedHosts;
       };
     };
 }
