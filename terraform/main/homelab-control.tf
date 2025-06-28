@@ -1,5 +1,5 @@
 resource "digitalocean_droplet" "homelab-control" {
-  image  = "191473488"
+  image  = "191656570"
   name   = "homelab-control"
   region = "nyc3"
   size   = "s-1vcpu-1gb"
@@ -19,8 +19,6 @@ resource "digitalocean_droplet" "homelab-control" {
   provisioner "remote-exec" {
     inline = [
       "export PATH=$PATH:/usr/bin",
-      "echo 'experimental-features = nix-command flakes' | sudo tee -a /etc/nix/nix.conf",
-      "sudo systemctl restart nix-daemon.service || true",
       "sudo nixos-rebuild switch --flake github:metamageia/homelab#homelab-control",
     ]
   }
