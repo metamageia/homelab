@@ -20,8 +20,6 @@ resource "digitalocean_droplet" "homelab-control" {
     inline = [
       "export PATH=$PATH:/usr/bin",
       "sudo hostname homelab-control",
-      "git clone https://github.com/metamageia/homelab.git /.dotfiles",
-      "cd /.dotfiles && nohup nixos-rebuild switch --flake .# &> /root/rebuild.log & disown",
     ]
   }
 }
