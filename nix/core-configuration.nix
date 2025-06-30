@@ -13,8 +13,8 @@
 
   imports = [
     ./apps/cachix.nix
-    #./apps/comin.nix
-    ./apps/auto-rebuild/auto-rebuild.nix
+    ./apps/comin.nix
+    #./apps/auto-rebuild/auto-rebuild.nix
   ];
 
 }
