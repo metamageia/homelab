@@ -17,7 +17,6 @@
         config.allowUnfree = true;
       };
 
-      hostname = builtins.getEnv "HOSTNAME";
     in {
       devShells.${system}.default = pkgs.mkShell {
       inherit system;
@@ -33,7 +32,7 @@
       nixosConfigurations.digitalocean = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
-          hostName = hostname;
+          hostName = digitalocean;
           inherit comin;
         };
         modules = [
