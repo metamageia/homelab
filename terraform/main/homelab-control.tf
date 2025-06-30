@@ -1,5 +1,5 @@
 resource "digitalocean_droplet" "homelab-control" {
-  image  = "191656570"
+  image  = "191915724"
   name   = "homelab-control"
   region = "nyc3"
   size   = "s-1vcpu-2gb"
@@ -19,7 +19,7 @@ resource "digitalocean_droplet" "homelab-control" {
   provisioner "remote-exec" {
     inline = [
       "export PATH=$PATH:/usr/bin",
-      "sudo systemd-run --unit=nixos-rebuild --no-block nixos-rebuild switch --flake github:metamageia/homelab#homelab-control",
+      "sudo  nixos-rebuild switch --flake github:metamageia/homelab#homelab-control",
     ]
   }
 }

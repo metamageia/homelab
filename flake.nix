@@ -20,7 +20,7 @@
     in {
       devShells.${system}.default = pkgs.mkShell {
       inherit system;
-      buildInputs = [ pkgs.terraform ];
+      buildInputs = [ pkgs.terraform pkgs.doctl ];
       shellHook = ''
         echo "Welcome to the Homeserver development environment!"
         set -a
@@ -50,6 +50,7 @@
           "${nixpkgs}/nixos/modules/virtualisation/digital-ocean-image.nix"
           ./nix/core-configuration.nix
           ./nix/homelab-control.nix
+          ./nix/apps/comin.nix
         ];
       };
 
