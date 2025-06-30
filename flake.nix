@@ -32,8 +32,7 @@
       nixosConfigurations.digitalocean = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
-          hostName = digitalocean;
-          inherit comin;
+          hostName = "digitalocean";
         };
         modules = [
           "${nixpkgs}/nixos/modules/virtualisation/digital-ocean-image.nix"
